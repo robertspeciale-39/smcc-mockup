@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+/* Sunday Morning Cigar Club palette: Ocean Drive after dark */
+@theme {
+  --color-night: #0e2f36;     /* page background */
+  --color-deep: #0a2329;      /* bands, footer */
+  --color-lagoon: #17464f;    /* raised surfaces */
+  --color-flamingo: #f3a5b6;  /* primary accent, neon */
+  --color-seafoam: #8fd3c3;   /* secondary accent */
+  --color-gold: #d6b25e;      /* deco linework */
+  --color-sand: #f1e7d6;      /* text */
+  --color-haze: #a9bdb9;      /* quiet text */
+
+  --font-display: "Limelight", Georgia, serif;
+  --font-sans: "Jost", system-ui, sans-serif;
+}
+
+html {
+  background: var(--color-night);
+}
+
+body {
+  background: var(--color-night);
+  color: var(--color-sand);
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+
+/* Triple gold pinstripe, the club's one repeated deco motif */
+.pinstripe {
+  height: 9px;
+  background:
+    linear-gradient(var(--color-gold), var(--color-gold)) top / 100% 1px no-repeat,
+    linear-gradient(var(--color-gold), var(--color-gold)) center / 100% 1px no-repeat,
+    linear-gradient(var(--color-gold), var(--color-gold)) bottom / 100% 1px no-repeat;
+  opacity: 0.7;
+}
+
+/* Stepped deco corners for featured panels */
+.deco-frame {
+  position: relative;
+  border: 1px solid color-mix(in srgb, var(--color-gold) 55%, transparent);
+}
+.deco-frame::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid color-mix(in srgb, var(--color-gold) 25%, transparent);
+  pointer-events: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-flamingo);
+  outline-offset: 3px;
+}
+
+@keyframes rise {
+  from { transform: translateY(18%) scale(0.96); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+.sun-rise {
+  animation: rise 1.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  transform-origin: 50% 100%;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sun-rise { animation: none; }
+}
