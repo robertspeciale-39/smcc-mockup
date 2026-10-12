@@ -9,7 +9,7 @@ const tiers = [
     monthly: "Free",
     annual: "Free",
     blurb: "Look around and find your next cigar.",
-    perks: ["Cigar Finder and the full Humidor", "Read the Board", "Public meetups", "Every podcast episode"],
+    perks: ["Cigar Finder", "Read the Board", "Public meetups", "Every podcast episode"],
     cta: "Continue with Google",
     featured: false,
   },

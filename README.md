@@ -10,7 +10,6 @@ A clickable design mockup built with Next.js and Tailwind CSS. Every member, pos
 | The Board | `/board` | Write a post, filter by city, "Light it" reactions |
 | Meetups | `/meetups` | Filter by city, RSVP toggle |
 | Cigar Finder | `/finder` | Strength, wrapper, flavors, occasion and budget produce three live matches |
-| The Humidor | `/humidor` | Search and filter 24 sample cigars, affiliate Buy buttons |
 | Podcast | `/podcast` | Sample episodes and player layout |
 | Membership | `/membership` | Guest, Member, Founders Circle tiers with monthly/annual toggle |
 | Profile | `/profile` | Member card, humidor journal, RSVPs |

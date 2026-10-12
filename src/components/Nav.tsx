@@ -10,7 +10,6 @@ const links = [
   { href: "/board", label: "The Board" },
   { href: "/meetups", label: "Meetups" },
   { href: "/finder", label: "Cigar Finder" },
-  { href: "/humidor", label: "The Humidor" },
   { href: "/podcast", label: "Podcast" },
 ];
 

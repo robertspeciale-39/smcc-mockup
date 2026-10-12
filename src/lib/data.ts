@@ -68,13 +68,14 @@ export type Post = {
   likes: number;
   replies: number;
   membersOnly?: boolean;
+  photo?: { src: string; alt: string; credit: string };
 };
 
 export const posts: Post[] = [
-  { id: 1, author: "Marcus Bell", initials: "MB", city: "Las Vegas", ago: "2h", text: "Patio was perfect this morning. 68 degrees, double espresso, and a Hemingway Short Story. Who's in for next Sunday?", cigarId: "hemingway-short-story", likes: 14, replies: 6 },
+  { id: 1, author: "Marcus Bell", initials: "MB", city: "Las Vegas", ago: "2h", text: "Patio was perfect this morning. 68 degrees, double espresso, and a Hemingway Short Story. Who's in for next Sunday?", cigarId: "hemingway-short-story", likes: 14, replies: 6, photo: { src: "https://images.unsplash.com/photo-1536303158031-c868b371399f?auto=format&fit=crop&w=1000&q=70", alt: "A man seated in a chair, smoking a cigar", credit: "Adrien King / Unsplash" } },
   { id: 2, author: "Dana Ortiz", initials: "DO", city: "Las Vegas", ago: "5h", text: "Picked up a box of Pledge Prequel. Dark chocolate and black pepper from the first draw. Bringing a few to the Big Smoke outing to share.", cigarId: "epc-pledge-prequel", likes: 22, replies: 9, membersOnly: true },
   { id: 3, author: "Greg Whitfield", initials: "GW", city: "Scottsdale", ago: "Yesterday", text: "Looking for a mild morning smoke that isn't just cream and nothing else. Recommendations?", likes: 8, replies: 15 },
-  { id: 4, author: "Andre Kim", initials: "AK", city: "Las Vegas", ago: "Yesterday", text: "Ran the Cigar Finder with medium, Habano, cedar and citrus. It matched Four Kicks and it nailed it. Lemon zest in the first third.", cigarId: "four-kicks", likes: 17, replies: 4 },
+  { id: 4, author: "Andre Kim", initials: "AK", city: "Las Vegas", ago: "Yesterday", text: "Ran the Cigar Finder with medium, Habano, cedar and citrus. It matched Four Kicks and it nailed it. Lemon zest in the first third.", cigarId: "four-kicks", likes: 17, replies: 4, photo: { src: "https://images.unsplash.com/photo-1493328628492-54491d37daba?auto=format&fit=crop&w=1000&q=70", alt: "A man lighting a cigar, the flame lighting his face", credit: "Jeff Brown / Unsplash" } },
   { id: 5, author: "Lauren Hayes", initials: "LH", city: "Miami", ago: "2 days ago", text: "Heading to Vegas the first week of November. Any members open to a herf before the Big Smoke Friday night?", likes: 11, replies: 7 },
   { id: 6, author: "Victor Chen", initials: "VC", city: "Las Vegas", ago: "3 days ago", text: "Humidor check: 69% and holding after the seasoning. Le Bijou is resting until Thanksgiving.", cigarId: "le-bijou-1922", likes: 9, replies: 3, membersOnly: true },
 ];

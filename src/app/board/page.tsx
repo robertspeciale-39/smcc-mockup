@@ -68,8 +68,15 @@ export default function Board() {
                     )}
                   </div>
                   <p className="mt-3">{p.text}</p>
+                  {p.photo && (
+                    <figure className="mt-3">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={p.photo.src} alt={p.photo.alt} loading="lazy" className="max-h-80 w-full rounded border border-gold/20 object-cover" />
+                      <figcaption className="mt-1 text-xs text-haze/70">Stock photo, sample post. {p.photo.credit}</figcaption>
+                    </figure>
+                  )}
                   {cigar && (
-                    <Link href="/humidor" className="mt-3 inline-block rounded border border-gold/30 px-3 py-1 text-sm text-gold hover:border-flamingo hover:text-flamingo">
+                    <Link href="/finder" className="mt-3 inline-block rounded border border-gold/30 px-3 py-1 text-sm text-gold hover:border-flamingo hover:text-flamingo">
                       Smoking: {cigar.brand} {cigar.name}
                     </Link>
                   )}

@@ -63,7 +63,7 @@ export default function Lobby() {
               </h3>
               <p className="mt-2 text-sm text-haze">{episode.summary}</p>
             </Link>
-            <Link href="/humidor" className="group rounded-md border border-gold/25 bg-lagoon/40 p-6 hover:border-flamingo">
+            <Link href="/finder" className="group rounded-md border border-gold/25 bg-lagoon/40 p-6 hover:border-flamingo">
               <p className="text-seafoam">The club is smoking</p>
               <h3 className="mt-1 text-xl font-medium group-hover:text-flamingo">
                 {featured.brand} {featured.name}
