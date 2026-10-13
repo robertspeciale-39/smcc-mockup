@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { SunMark } from "@/components/Sunburst";
 import { StrengthMeter } from "@/components/CigarCard";
-import { cigars, meetups } from "@/lib/data";
+import { badges, cigars, meetups } from "@/lib/data";
 
 const journal = [
   { id: "hemingway-short-story", date: "Oct 4", rating: 5, note: "Sweet cedar all the way down. The Sunday standard." },
@@ -34,7 +34,7 @@ export default function Profile() {
         <section>
           <div className="flex items-end justify-between">
             <h2 className="font-display text-2xl text-sand">Humidor journal</h2>
-            <button className="text-flamingo hover:underline">Log a cigar</button>
+            <Link href="/board" className="text-flamingo hover:underline">Log a Smoke Session</Link>
           </div>
           <ul className="mt-4 space-y-4">
             {journal.map((j) => {
@@ -50,6 +50,31 @@ export default function Profile() {
                     <span className="text-gold" aria-label={`Rated ${j.rating} of 5`}>{"★".repeat(j.rating)}{"☆".repeat(5 - j.rating)}</span>
                   </div>
                   <p className="mt-2 text-haze">{j.note}</p>
+                </li>
+              );
+            })}
+          </ul>
+
+          <h2 className="mt-14 font-display text-2xl text-sand">Badges</h2>
+          <p className="mt-1 text-haze">
+            Earned by logging Smoke Sessions and showing up. No rankings, just a shelf of the habits you&apos;ve built.
+          </p>
+          <ul className="mt-4 grid gap-4 sm:grid-cols-2">
+            {badges.map((b) => {
+              const earned = b.progress >= b.goal;
+              const pct = Math.min(100, Math.round((b.progress / b.goal) * 100));
+              return (
+                <li key={b.id} className={`rounded-md border p-4 ${earned ? "deco-frame bg-lagoon/50" : "border-gold/20"}`}>
+                  <div className="flex items-baseline justify-between gap-2">
+                    <h3 className={`font-medium ${earned ? "text-gold" : "text-sand"}`}>{b.name}</h3>
+                    <span className={`text-xs ${earned ? "text-seafoam" : "text-haze"}`}>{earned ? "Earned" : `${b.progress} of ${b.goal}`}</span>
+                  </div>
+                  <p className="mt-1 text-sm text-haze">{b.how}</p>
+                  {!earned && (
+                    <div className="mt-3 h-1.5 rounded-full bg-sand/15" role="img" aria-label={`${pct} percent complete`}>
+                      <div className="h-1.5 rounded-full bg-flamingo" style={{ width: `${pct}%` }} />
+                    </div>
+                  )}
                 </li>
               );
             })}
