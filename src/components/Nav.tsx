@@ -9,7 +9,9 @@ const links = [
   { href: "/", label: "Lobby" },
   { href: "/board", label: "The Board" },
   { href: "/meetups", label: "Meetups" },
+  { href: "/members", label: "Members" },
   { href: "/finder", label: "Cigar Finder" },
+  { href: "/cigar-of-the-month", label: "Cigar of the Month" },
   { href: "/podcast", label: "Podcast" },
 ];
 
@@ -28,7 +30,7 @@ export function Nav() {
           </span>
         </Link>
 
-        <nav className="ml-auto hidden items-center gap-1 lg:flex" aria-label="Main">
+        <nav className="ml-auto hidden items-center gap-1 xl:flex" aria-label="Main">
           {links.map((l) => (
             <Link
               key={l.href}
@@ -43,7 +45,7 @@ export function Nav() {
           ))}
         </nav>
 
-        <div className="ml-auto flex items-center gap-3 lg:ml-2">
+        <div className="ml-auto flex items-center gap-3 xl:ml-2">
           <Link href="/profile" className="hidden h-9 w-9 place-items-center rounded-full border border-gold/60 text-sm text-gold sm:grid" aria-label="Your profile">
             RS
           </Link>
@@ -51,7 +53,7 @@ export function Nav() {
             Join the club
           </Link>
           <button
-            className="rounded border border-gold/40 px-3 py-2 text-sm lg:hidden"
+            className="rounded border border-gold/40 px-3 py-2 text-sm xl:hidden"
             aria-expanded={open}
             aria-controls="mobile-nav"
             onClick={() => setOpen(!open)}
@@ -62,7 +64,7 @@ export function Nav() {
       </div>
 
       {open && (
-        <nav id="mobile-nav" className="border-t border-gold/20 px-4 pb-4 lg:hidden" aria-label="Main">
+        <nav id="mobile-nav" className="border-t border-gold/20 px-4 pb-4 xl:hidden" aria-label="Main">
           {[...links, { href: "/profile", label: "My profile" }].map((l) => (
             <Link
               key={l.href}

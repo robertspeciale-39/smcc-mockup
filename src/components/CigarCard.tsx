@@ -1,4 +1,4 @@
-import { affiliateUrl, STRENGTH_LABELS, type Cigar, type Wrapper } from "@/lib/data";
+import { affiliateUrl, checkInsFor, pairingsFor, STRENGTH_LABELS, type Cigar, type Wrapper } from "@/lib/data";
 
 const WRAPPER_SHADE: Record<Wrapper, string> = {
   Connecticut: "#c9a574",
@@ -47,11 +47,26 @@ export function CigarCard({ cigar, match }: { cigar: Cigar; match?: number }) {
           <dd>{cigar.country}</dd>
           <dt className="text-haze">Shape</dt>
           <dd>{cigar.vitola}</dd>
+          <dt className="text-haze">Check-ins</dt>
+          <dd>{checkInsFor(cigar)} this year</dd>
         </dl>
 
         <p className="mt-3 text-sm text-haze">
           Notes of {cigar.flavors.join(", ")}
         </p>
+
+        <details className="mt-3 rounded border border-gold/20 px-3 py-2 text-sm">
+          <summary className="cursor-pointer text-seafoam">Pairing guide</summary>
+          <ul className="mt-2 space-y-2">
+            {pairingsFor(cigar).map((p) => (
+              <li key={p.drink}>
+                <span className="text-sand">{p.drink}</span>
+                <span className="block text-haze">{p.why}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-2 text-xs text-haze/70">Club suggestions. Enjoy responsibly.</p>
+        </details>
 
         <div className="mt-auto flex flex-wrap items-center justify-between gap-3 pt-5">
           <span className="whitespace-nowrap text-sm">

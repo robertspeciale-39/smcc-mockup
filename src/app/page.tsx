@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { Sunburst } from "@/components/Sunburst";
 import { CigarCard } from "@/components/CigarCard";
-import { cigars, episodes, meetups, posts } from "@/lib/data";
+import { cigars, episodes, meetups, monthlyPick, posts } from "@/lib/data";
 
 export default function Lobby() {
   const nextHerf = meetups[0];
   const episode = episodes[0];
   const featured = cigars.find((c) => c.id === "padron-1964-maduro")!;
+  const monthly = cigars.find((c) => c.id === monthlyPick.cigarId)!;
 
   return (
     <>
@@ -62,6 +63,15 @@ export default function Lobby() {
                 Ep. {episode.n}: {episode.title}
               </h3>
               <p className="mt-2 text-sm text-haze">{episode.summary}</p>
+            </Link>
+            <Link href="/cigar-of-the-month" className="group rounded-md border border-gold/25 bg-lagoon/40 p-6 hover:border-flamingo">
+              <p className="text-seafoam">Cigar of the Month</p>
+              <h3 className="mt-1 text-xl font-medium group-hover:text-flamingo">
+                {monthly.brand} {monthly.name}
+              </h3>
+              <p className="mt-2 text-sm text-haze">
+                {monthlyPick.smokedBy} members have smoked it. Voting for November is open.
+              </p>
             </Link>
             <Link href="/finder" className="group rounded-md border border-gold/25 bg-lagoon/40 p-6 hover:border-flamingo">
               <p className="text-seafoam">The club is smoking</p>
