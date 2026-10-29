@@ -1,0 +1,20 @@
+# dependencies
+/node_modules
+
+# next.js
+/.next/
+/out/
+next-env.d.ts
+
+# secrets: never commit real values (use .env.example as the template)
+.env
+.env.*
+!.env.example
+
+# local database files and logs
+*.log
+.DS_Store
+
+# vercel
+.vercel
+*.tsbuildinfo

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { PageHeader } from "@/components/PageHeader";
 
 const tiers = [
@@ -78,20 +79,21 @@ export default function Membership() {
                 ))}
               </ul>
               <div className="mt-auto pt-8">
-                <button
-                  className={`w-full rounded-full px-5 py-3 font-medium ${
+                <Link
+                  href="/signin?next=/board"
+                  className={`block w-full rounded-full px-5 py-3 text-center font-medium ${
                     t.featured ? "bg-flamingo text-deep hover:bg-sand" : "border border-gold/60 hover:border-flamingo hover:text-flamingo"
                   }`}
                 >
                   {t.cta}
-                </button>
+                </Link>
               </div>
             </article>
           ))}
         </div>
 
         <p className="mt-12 text-center text-sm text-haze">
-          Sign in with your Google account. Payments are handled securely by Stripe. Cancel any time.
+          Sign in with your Google account to get started. Billing isn&apos;t switched on yet, so a club host approves each new member by hand.
         </p>
       </div>
     </>

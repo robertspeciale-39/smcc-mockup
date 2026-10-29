@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import "@fontsource/limelight/400.css";
 import "@fontsource/jost/400.css";
 import "@fontsource/jost/500.css";
 import "./globals.css";
 import { Nav } from "@/components/Nav";
+import { AuthStatus } from "@/components/AuthStatus";
 import { AgeGate } from "@/components/AgeGate";
 import { SunMark } from "@/components/Sunburst";
 
@@ -17,9 +19,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className="h-full antialiased">
       <body className="flex min-h-full flex-col">
         <div className="bg-gold px-4 py-1.5 text-center text-sm text-deep">
-          Design mockup. Members, posts, events and prices are sample data.
+          Work in progress. Sign-in and the Board are live; meetups, the member directory, prices and the rest are still sample data.
         </div>
-        <Nav />
+        <Nav
+          auth={
+            <Suspense fallback={<span className="block h-9 w-40" aria-hidden />}>
+              <AuthStatus />
+            </Suspense>
+          }
+        />
         <main className="flex-1">{children}</main>
         <footer className="mt-20 bg-deep">
           <div className="pinstripe" />

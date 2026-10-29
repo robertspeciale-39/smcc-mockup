@@ -1,13 +1,15 @@
 # The Sunday Morning Cigar Club: Phase 1 mockup
 
-A clickable design mockup built with Next.js and Tailwind CSS. Every member, post, meetup, episode and price is sample data in `src/lib/data.ts`. There is no database, login or payment yet.
+A members' club site built with Next.js and Tailwind CSS. **Phase 2 is under way:** Google sign-in and the Board now run on a real database (see [SETUP.md](SETUP.md) to switch them on). Everything else (meetups, member directory, Cigar of the Month, profile, prices, episodes) is still sample data in `src/lib/data.ts`, and there is no payment yet.
 
 ## Pages
 
 | Page | Path | What works in the mockup |
 | --- | --- | --- |
 | Lobby | `/` | Next herf, latest episode, featured cigar, Board preview |
-| The Board | `/board` | Write a post, filter by city, "Light it" reactions |
+| The Board | `/board` | **Live (needs setup).** Posts, Smoke Sessions, replies, reactions, reports, city and category filters |
+| Sign in | `/signin` | **Live (needs setup).** Google sign-in |
+| Host tools | `/admin` | **Live (needs setup).** Approve members, handle reports, hide or restore posts |
 | Meetups | `/meetups` | Filter by city, RSVP toggle |
 | Cigar Finder | `/finder` | Strength, wrapper, flavors, occasion and budget produce three live matches |
 | Podcast | `/podcast` | Sample episodes and player layout |

@@ -15,7 +15,7 @@ const links = [
   { href: "/podcast", label: "Podcast" },
 ];
 
-export function Nav() {
+export function Nav({ auth }: { auth: React.ReactNode }) {
   const path = usePathname();
   const [open, setOpen] = useState(false);
 
@@ -46,12 +46,7 @@ export function Nav() {
         </nav>
 
         <div className="ml-auto flex items-center gap-3 xl:ml-2">
-          <Link href="/profile" className="hidden h-9 w-9 place-items-center rounded-full border border-gold/60 text-sm text-gold sm:grid" aria-label="Your profile">
-            RS
-          </Link>
-          <Link href="/membership" className="whitespace-nowrap rounded-full bg-flamingo px-4 py-2 text-sm font-medium text-deep hover:bg-sand">
-            Join the club
-          </Link>
+          {auth}
           <button
             className="rounded border border-gold/40 px-3 py-2 text-sm xl:hidden"
             aria-expanded={open}
