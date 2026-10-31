@@ -80,6 +80,7 @@ describe("which photo addresses a post may use", () => {
 
   it("accepts the club's own storage", () => {
     assert.equal(isBoardPhotoUrl(good), true);
+    assert.equal(isBoardPhotoUrl(good.replace("abc123xyz", "store_abc123xyz")), true);
   });
 
   it("rejects everything else", () => {

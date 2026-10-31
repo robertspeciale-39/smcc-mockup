@@ -20,7 +20,7 @@ export function isBoardPhotoUrl(value: string): boolean {
       !u.username &&
       !u.password &&
       !u.port &&
-      /^[a-z0-9-]+\.public\.blob\.vercel-storage\.com$/i.test(u.hostname) &&
+      /^[a-z0-9_-]+\.public\.blob\.vercel-storage\.com$/i.test(u.hostname) &&
       /^\/board\/[A-Za-z0-9._-]+$/.test(u.pathname)
     );
   } catch {
