@@ -4,6 +4,7 @@ import { startTransition, useActionState, useState } from "react";
 import { createPostAction, type ActionState } from "@/app/board/actions";
 import { BOARD_CITIES, CATEGORIES, CATEGORY_LABELS } from "@/db/enums";
 import { LIMITS } from "@/lib/validation";
+import { PhotoPicker } from "./PhotoPicker";
 
 export type CigarOption = { id: string; label: string };
 
@@ -162,6 +163,8 @@ function Fields({
           </select>
         </div>
       )}
+
+      <PhotoPicker />
 
       <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
         <label className="flex items-center gap-2 text-sm text-haze">

@@ -75,6 +75,7 @@ export type FeedPost = {
   sessionRating: number | null;
   sessionThirds: [string, string, string] | null;
   sessionPairing: string | null;
+  imageUrl: string | null;
   createdAt: Date;
   lights: number;
   lit: boolean;
@@ -108,6 +109,7 @@ export async function listFeed(
       sessionRating: posts.sessionRating,
       sessionThirds: posts.sessionThirds,
       sessionPairing: posts.sessionPairing,
+      imageUrl: posts.imageUrl,
       createdAt: posts.createdAt,
       lights: sql<number>`(select count(*)::int from ${reactions} where ${reactions.postId} = ${posts.id})`,
       lit: viewerId
@@ -130,6 +132,7 @@ export type FeedComment = {
   authorId: string;
   authorName: string | null;
   body: string;
+  imageUrl: string | null;
   status: "published" | "hidden";
   createdAt: Date;
 };
@@ -145,6 +148,7 @@ export async function listComments(db: Db, viewer: MaybeViewer, postIds: string[
       authorId: comments.authorId,
       authorName: users.name,
       body: comments.body,
+      imageUrl: comments.imageUrl,
       status: comments.status,
       createdAt: comments.createdAt,
     })
@@ -185,6 +189,7 @@ export async function createPost(db: Db, viewer: MaybeViewer, raw: unknown): Pro
       sessionRating: isSession ? input.session!.rating : null,
       sessionThirds: isSession ? input.session!.thirds : null,
       sessionPairing: isSession ? input.session!.pairing : null,
+      imageUrl: input.imageUrl ?? null,
     })
     .returning({ id: posts.id });
   return row;
@@ -200,7 +205,7 @@ export async function createComment(db: Db, viewer: MaybeViewer, raw: unknown): 
   }
   const [row] = await db
     .insert(comments)
-    .values({ postId: input.postId, authorId: who.id, body: input.body })
+    .values({ postId: input.postId, authorId: who.id, body: input.body, imageUrl: input.imageUrl ?? null })
     .returning({ id: comments.id });
   return row;
 }

@@ -84,6 +84,8 @@ export const posts = pgTable(
     sessionRating: smallint("session_rating"),
     sessionThirds: jsonb("session_thirds").$type<[string, string, string]>(),
     sessionPairing: text("session_pairing"),
+    // One optional photo, stored in Vercel Blob. Holds the photo's web address.
+    imageUrl: text("image_url"),
     hiddenBy: text("hidden_by").references(() => users.id, { onDelete: "set null" }),
     hiddenAt: timestamp("hidden_at", { withTimezone: true }),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
@@ -102,6 +104,7 @@ export const comments = pgTable(
     postId: uuid("post_id").notNull().references(() => posts.id, { onDelete: "cascade" }),
     authorId: text("author_id").notNull().references(() => users.id, { onDelete: "cascade" }),
     body: text("body").notNull(),
+    imageUrl: text("image_url"),
     status: contentStatusEnum("status").notNull().default("published"),
     hiddenBy: text("hidden_by").references(() => users.id, { onDelete: "set null" }),
     hiddenAt: timestamp("hidden_at", { withTimezone: true }),

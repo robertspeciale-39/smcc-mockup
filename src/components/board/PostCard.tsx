@@ -13,6 +13,21 @@ const stars = (n: number) => "★".repeat(n) + "☆".repeat(5 - n);
 const THIRDS = ["First third", "Second third", "Final third"] as const;
 const linkBtn = "text-haze hover:text-sand hover:underline";
 
+// Photos are already shrunk before upload. Clicking one opens the full picture in a new tab.
+function Photo({ url, by, small }: { url: string; by: string | null; small?: boolean }) {
+  return (
+    <a href={url} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={url}
+        alt={`Photo shared by ${by ?? "a member"}`}
+        loading="lazy"
+        className={`w-auto max-w-full rounded border border-gold/25 ${small ? "max-h-56" : "max-h-96"}`}
+      />
+    </a>
+  );
+}
+
 function ReportForm({ target }: { target: { postId?: string; commentId?: string } }) {
   return (
     <details className="inline-block align-top">
@@ -98,6 +113,8 @@ export function PostCard({
         </Link>
       )}
 
+      {post.imageUrl && <div><Photo url={post.imageUrl} by={post.authorName} /></div>}
+
       <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-haze">
         <LightButton postId={post.id} lights={post.lights} lit={post.lit} canLight={canParticipate && !hidden} />
         <span>{post.replyCount} {post.replyCount === 1 ? "reply" : "replies"}</span>
@@ -131,7 +148,8 @@ export function PostCard({
                     <span className="text-sand">{c.authorName ?? "Member"}</span> · {timeAgo(c.createdAt, now)}
                     {cHidden && <span className="ml-2 text-flamingo">Hidden</span>}
                   </p>
-                  <p className="mt-0.5 whitespace-pre-line break-words">{c.body}</p>
+                  {c.body && <p className="mt-0.5 whitespace-pre-line break-words">{c.body}</p>}
+                  {c.imageUrl && <div><Photo url={c.imageUrl} by={c.authorName} small /></div>}
                   <span className="mt-1 flex flex-wrap items-start gap-x-4 gap-y-1 text-xs">
                     {canParticipate && !cMine && !cHidden && <ReportForm target={{ commentId: c.id }} />}
                     {(cMine || admin) && (

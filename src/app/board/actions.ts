@@ -12,6 +12,7 @@ import {
 } from "@/lib/board-service";
 import { getViewer } from "@/lib/dal";
 import { ServiceError } from "@/lib/permissions";
+import { uploadBoardPhoto } from "@/lib/photo-upload";
 
 // What the composer and reply form get back. resetKey goes up after each success so the form can clear itself.
 export type ActionState = { ok: boolean; error?: string; resetKey: number } | null;
@@ -24,13 +25,22 @@ function fail(e: unknown, resetKey: number): ActionState {
 
 const text = (f: FormData, k: string) => String(f.get(k) ?? "");
 
+// Stores the attached photo, if there is one, and returns its address. An empty file input counts as no photo.
+async function storePhoto(f: FormData): Promise<string | undefined> {
+  const file = f.get("photo");
+  if (!(file instanceof File) || file.size === 0) return undefined;
+  return uploadBoardPhoto(await getViewer(), file);
+}
+
 export async function createPostAction(prev: ActionState, formData: FormData): Promise<ActionState> {
   const resetKey = prev?.resetKey ?? 0;
   try {
     const category = text(formData, "category") || "general";
     const isSession = category === "smoke_session";
+    const imageUrl = await storePhoto(formData);
     await createPost(getDb(), await getViewer(), {
       body: text(formData, "body"),
+      imageUrl,
       category,
       city: text(formData, "city"),
       visibility: formData.get("members_only") === "on" ? "members" : "public",
@@ -53,7 +63,8 @@ export async function createPostAction(prev: ActionState, formData: FormData): P
 export async function createCommentAction(postId: string, prev: ActionState, formData: FormData): Promise<ActionState> {
   const resetKey = prev?.resetKey ?? 0;
   try {
-    await createComment(getDb(), await getViewer(), { postId, body: text(formData, "body") });
+    const imageUrl = await storePhoto(formData);
+    await createComment(getDb(), await getViewer(), { postId, body: text(formData, "body"), imageUrl });
     revalidatePath("/board");
     return { ok: true, resetKey: resetKey + 1 };
   } catch (e) {

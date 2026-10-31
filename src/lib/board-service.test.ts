@@ -296,6 +296,61 @@ describe("reports and moderation", () => {
   });
 });
 
+describe("photos", () => {
+  const photo = "https://abc123xyz.public.blob.vercel-storage.com/board/11111111-1111-4111-8111-111111111111.jpg";
+  const photo2 = "https://abc123xyz.public.blob.vercel-storage.com/board/22222222-2222-4222-8222-222222222222.png";
+
+  it("stores one photo on a post and returns it in the feed", async () => {
+    const m = await mkUser();
+    await createPost(db, m, post("With a photo", { imageUrl: photo }));
+    await createPost(db, m, post("No photo"));
+    const feed = (await listFeed(db, m)).posts;
+    assert.equal(feed.find((p) => p.body === "With a photo")?.imageUrl, photo);
+    assert.equal(feed.find((p) => p.body === "No photo")?.imageUrl, null);
+  });
+
+  it("allows a post with a photo and no words, but not an empty post", async () => {
+    const m = await mkUser();
+    assert.equal(await code(createPost(db, m, post("", { imageUrl: photo }))), "ok");
+    assert.equal(await code(createPost(db, m, post(""))), "invalid");
+  });
+
+  it("refuses photo addresses that are not the club's own storage", async () => {
+    const m = await mkUser();
+    for (const imageUrl of ["https://evil.example.com/board/a.jpg", "http://abc123xyz.public.blob.vercel-storage.com/board/a.jpg", "not a url"]) {
+      assert.equal(await code(createPost(db, m, post("hi", { imageUrl }))), "invalid", imageUrl);
+    }
+  });
+
+  it("keeps guests and suspended members from posting a photo", async () => {
+    const guest = await mkUser({ tier: "guest" });
+    const suspended = await mkUser({ status: "suspended" });
+    assert.equal(await code(createPost(db, null, post("x", { imageUrl: photo }))), "unauthorized");
+    for (const who of [guest, suspended]) assert.equal(await code(createPost(db, who, post("x", { imageUrl: photo }))), "forbidden");
+  });
+
+  it("stores a photo on a reply, allows a photo-only reply, and refuses foreign addresses", async () => {
+    const a = await mkUser();
+    const b = await mkUser();
+    const { id } = await createPost(db, a, post("Thread"));
+    assert.equal(await code(createComment(db, b, { postId: id, body: "Nice", imageUrl: photo })), "ok");
+    assert.equal(await code(createComment(db, b, { postId: id, body: "", imageUrl: photo2 })), "ok");
+    assert.equal(await code(createComment(db, b, { postId: id, body: "" })), "invalid");
+    assert.equal(await code(createComment(db, b, { postId: id, body: "hi", imageUrl: "https://evil.example.com/board/a.jpg" })), "invalid");
+    const replies = await listComments(db, a, [id]);
+    assert.deepEqual(replies.map((c) => c.imageUrl), [photo, photo2]);
+  });
+
+  it("keeps a photo out of sight when its post is hidden", async () => {
+    const a = await mkUser();
+    const admin = await mkUser({ role: "admin" });
+    const { id } = await createPost(db, a, post("Hide me", { imageUrl: photo }));
+    await setContentHidden(db, admin, { kind: "post", id, hidden: true });
+    assert.equal((await listFeed(db, a)).posts.length, 0);
+    assert.equal((await listFeed(db, admin)).posts[0].imageUrl, photo);
+  });
+});
+
 describe("running the club", () => {
   it("lets only admins manage tiers and suspensions", async () => {
     const admin = await mkUser({ role: "admin" });

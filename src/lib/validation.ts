@@ -1,8 +1,11 @@
 import { z } from "zod";
 import { BOARD_CITIES, CATEGORIES, TIERS, USER_STATUSES, VISIBILITIES } from "@/db/enums";
 import { cigars, DRINKS } from "@/lib/data";
+import { isBoardPhotoUrl } from "@/lib/photo";
 
 export const LIMITS = { post: 2000, comment: 1000, reason: 500, third: 160 } as const;
+
+const imageUrl = z.string().max(500).refine(isBoardPhotoUrl, "That photo isn't one of the club's own uploads.");
 
 const third = z.string().trim().max(LIMITS.third, `Keep each note under ${LIMITS.third} characters.`);
 
@@ -13,6 +16,7 @@ export const postInputSchema = z
     city: z.enum(BOARD_CITIES),
     visibility: z.enum(VISIBILITIES),
     cigarId: z.string().trim().max(80).optional(),
+    imageUrl: imageUrl.optional(),
     session: z
       .object({
         rating: z.number().int().min(1).max(5),
@@ -28,16 +32,19 @@ export const postInputSchema = z
     if (v.category === "smoke_session") {
       if (!v.session) ctx.addIssue({ code: "custom", path: ["session"], message: "Add a rating to log a Smoke Session." });
       if (!v.cigarId) ctx.addIssue({ code: "custom", path: ["cigarId"], message: "Pick the cigar you smoked." });
-    } else if (v.body.length === 0) {
+    } else if (v.body.length === 0 && !v.imageUrl) {
       ctx.addIssue({ code: "custom", path: ["body"], message: "Write something to post." });
     }
   });
 export type PostInput = z.infer<typeof postInputSchema>;
 
-export const commentSchema = z.object({
-  postId: z.uuid(),
-  body: z.string().trim().min(1, "Write a reply first.").max(LIMITS.comment, `Replies can be up to ${LIMITS.comment} characters.`),
-});
+export const commentSchema = z
+  .object({
+    postId: z.uuid(),
+    body: z.string().trim().max(LIMITS.comment, `Replies can be up to ${LIMITS.comment} characters.`),
+    imageUrl: imageUrl.optional(),
+  })
+  .refine((v) => v.body.length > 0 || !!v.imageUrl, { path: ["body"], message: "Write a reply first." });
 
 export const reportSchema = z
   .object({
